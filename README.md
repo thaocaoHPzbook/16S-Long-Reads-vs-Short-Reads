@@ -79,6 +79,7 @@ SRR23380892,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380892.fastq,
 
 **2. Import data to QIIME2**
 ```bash
+conda activate qiime2-amplicon-2024.5
 qiime tools import \
   --type 'SampleData[SequencesWithQuality]' \
   --input-path manifest.csv \
@@ -86,10 +87,49 @@ qiime tools import \
   --input-format SingleEndFastqManifestPhred33
 ```
 
-***3. Inspect the imported data**
+***3. Inspect the imported data**   
+```bash
 qiime demux summarize \
   --i-data long_reads_demux1.qza \
   --o-visualization long_reads_demux1.qzv
+```
+
+### Denoising with DADA2 plugin
+```bash
+qiime dada2 denoise-ccs \
+  --i-demultiplexed-seqs long_reads_demux1.qza \
+  --o-table dada2-ccs_table.qza \
+  --o-representative-sequences dada2-ccs_rep.qza \
+  --o-denoising-stats dada2-ccs_stats.qza \
+  --p-min-len 1000 \
+  --p-max-len 1600 \
+  --p-max-ee 3 \
+  --p-front 'AGRGTTYGATYMTGGCTCAG' \
+  --p-adapter 'RGYTACCTTGTTACGACTT' \
+  --p-n-threads 8
+```
+
+### Remove chimeric ASVs
+```bash
+qiime vsearch uchime-denovo \
+  --i-sequences rep-short_reads_seqs.qza \
+  --i-table short_reads_table.qza \
+  --o-chimeras short_reads_chimeras.qza \
+  --o-nonchimeras short_reads_nonchimeras.qza \
+  --o-stats uchime-stats.qza
+```
+
+### Generate SILVA database   
+**1. Download SILVA database**
+```bash
+wget https://data.qiime2.org/2022.2/common/silva-138-99-tax.qza
+wget https://data.qiime2.org/2022.2/common/silva-138-99-seqs.qza
+```
+
+**Update scikit-learn to Match Classifier Version**
+```bash
+pip install scikit-learn==0.24.1
+```
 
 
 
