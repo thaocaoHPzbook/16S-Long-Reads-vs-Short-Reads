@@ -10,22 +10,19 @@ https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 **3. Download data**    
 - 4 Ilumina feaces samples SRR23380954, SRR23380955, SRR23380956, SRR23380957    
 - 4 Pacbio feaces samplesSRR23380883, SRR23380890, SRR23380891, SRR23380892 
-
-prefetch SRR23380954 SRR23380955 SRR23380956 SRR23380957 \
-SRR23380883 SRR23380890 SRR23380891 SRR23380892;
+`prefetch SRR23380954 SRR23380955 SRR23380956 SRR23380957 SRR23380883 SRR23380890 SRR23380891 SRR23380892`
 
 ---
 
 **4. Convert .SRA file into fastq flie**    
-```bash
-fasterq-dump --outdir /home/hp/16S_analysis/input/Illumina --split-files SRR23380954
+`fasterq-dump --outdir /home/hp/16S_analysis/input/Illumina --split-files SRR23380954
 fasterq-dump --outdir /home/hp/16S_analysis/input/Illumina --split-files SRR23380955
 fasterq-dump --outdir /home/hp/16S_analysis/input/Illumina --split-files SRR23380956
 fasterq-dump --outdir /home/hp/16S_analysis/input/Illumina --split-files SRR23380957
 fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR23380883
 fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR23380890
 fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR23380891
-fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR23380892
+fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR23380892`
 
 
 ## QC downloaded samples and statistic
