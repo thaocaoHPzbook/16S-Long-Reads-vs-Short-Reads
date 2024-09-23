@@ -67,7 +67,7 @@ done
 ```bash
 nano manifest1.csv
 ```
-*plaintext*
+*plaintext of manifest1.csv*
 ```bash
 sample-id,absolute-filepath,direction
 SRR23380883,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380883.fastq,forward
