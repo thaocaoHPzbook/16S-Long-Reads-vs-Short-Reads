@@ -11,7 +11,7 @@ https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 - 4 Ilumina feaces samples SRR23380954, SRR23380955, SRR23380956, SRR23380957    
 - 4 Pacbio feaces samplesSRR23380883, SRR23380890, SRR23380891, SRR23380892    
 `prefetch SRR23380954 SRR23380955 SRR23380956 SRR23380957 SRR23380883 SRR23380890 SRR23380891 SRR23380892`    
-**4. Convert .SRA file into fastq flie**
+**4. Convert .SRA file into fastq flie**    
 `fasterq-dump --outdir home/hp/-16S_analysis/input/Illumina -split-files SRR23380954
 fasterq-dump --outdir home/hp/-16S_analysis/input/Illumina --split-files SRR23380955
 fasterq-dump --outdir home/hp/-16S_analysis/input/Illumina --split-files SRR23380956
@@ -29,11 +29,9 @@ fasterq-dump --outdir home/hp/-16S_analysis/input/Pacbio --split-files SRR233808
 **3. For Illumina samples**    
 `for file in /home/hp/16S_analysis/input/illumina/*.fastq; do
     sampleID=$(basename "$file" .fastq)
-    
     # Xử lý thống kê read với seqkit và csvtk
     seqkit fx2tab -j 8 -q --gc -l -H -n -i "$file" | \
     csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.readstats.tsv"
-    
     # Xử lý thống kê tổng hợp với seqkit và csvtk
     seqkit stats -T -j 8 -a "$file" | \
     csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.summarystats.tsv"
