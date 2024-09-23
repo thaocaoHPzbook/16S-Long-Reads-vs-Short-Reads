@@ -62,12 +62,13 @@ for file in /home/hp/16S_analysis/input/pacbio/*.fastq; do
     csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/pacbio/${sampleID}.seqkit.summarystats.tsv"
 done
 ```
-## Long Reads 16S hifi Pacbio Data processing    
+## Long Reads 16S hifi Pacbio Data processing   
+### Imoport to QIIME 2
 **1. Generate manifest file***
 ```bash
 nano manifest1.csv
 ```
-*plaintext of manifest1.csv*
+*plaintext of manifest.csv*
 ```bash
 sample-id,absolute-filepath,direction
 SRR23380883,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380883.fastq,forward
@@ -75,6 +76,21 @@ SRR23380890,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380890.fastq,
 SRR23380891,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380891.fastq,forward
 SRR23380892,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380892.fastq,forward
 ````
+
+**2. Import data to QIIME2**
+```bash
+qiime tools import \
+  --type 'SampleData[SequencesWithQuality]' \
+  --input-path manifest.csv \
+  --output-path long_reads_demux1.qza \
+  --input-format SingleEndFastqManifestPhred33
+```
+
+***3. Inspect the imported data**
+qiime demux summarize \
+  --i-data long_reads_demux1.qza \
+  --o-visualization long_reads_demux1.qzv
+
 
 
 
