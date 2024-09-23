@@ -12,9 +12,9 @@ mkdir -p 16S_analysis/input/Pacbio 16S_analysis/input/illumina;
 
 
 **3. Download data**    
-```bash
 - 4 Ilumina feaces samples SRR23380954, SRR23380955, SRR23380956, SRR23380957    
-- 4 Pacbio feaces samplesSRR23380883, SRR23380890, SRR23380891, SRR23380892 
+- 4 Pacbio feaces samplesSRR23380883, SRR23380890, SRR23380891, SRR23380892
+```bash
 `prefetch SRR23380954 SRR23380955 SRR23380956 SRR23380957 SRR23380883 SRR23380890 SRR23380891 SRR23380892`
 ```
 
@@ -62,8 +62,19 @@ for file in /home/hp/16S_analysis/input/pacbio/*.fastq; do
     csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/pacbio/${sampleID}.seqkit.summarystats.tsv"
 done
 ```
-
-
+## Long Reads 16S hifi Pacbio Data processing    
+**1. Generate manifest file***
+```bash
+nano manifest1.csv
+```
+*plaintext*
+```bash
+sample-id,absolute-filepath,direction
+SRR23380883,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380883.fastq,forward
+SRR23380890,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380890.fastq,forward
+SRR23380891,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380891.fastq,forward
+SRR23380892,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380892.fastq,forward
+````
 
 
 
