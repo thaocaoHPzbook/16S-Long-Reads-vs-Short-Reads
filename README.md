@@ -13,6 +13,8 @@ https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 ```bash
 prefetch SRR23380954 SRR23380955 SRR23380956 SRR23380957 SRR23380883 SRR23380890 SRR23380891 SRR23380892
 
+
+
 **4. Convert .SRA file into fastq flie**    
 ```bash
 fasterq-dump --outdir /home/hp/16S_analysis/input/Illumina --split-files SRR23380954
