@@ -28,7 +28,14 @@ fasterq-dump --outdir home/hp/-16S_analysis/input/Pacbio --split-files SRR233808
 `conda install -c bioconda csvtk`    
 **3. For Illumina samples**    
 ```bash
-for file in /home/hp/16S_analysis/input/illumina/*.fastq; do sampleID=$(basename "$file" .fastq); seqkit fx2tab -j 8 -q --gc -l -H -n -i "$file" | svtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.readstats.tsv"; seqkit stats -T -j 8 -a "$file" | csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.summarystats.tsv"; done
+for file in /home/hp/16S_analysis/input/illumina/*.fastq; do
+    sampleID=$(basename "$file" .fastq)
+    seqkit fx2tab -j 8 -q --gc -l -H -n -i "$file" | \
+    svtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.readstats.tsv"
+    seqkit stats -T -j 8 -a "$file" | \
+    csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.summarystats.tsv"
+done
+
 
 
 
