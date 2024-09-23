@@ -1,4 +1,4 @@
-# Full-length 16S rRNA gene sequencing improves taxonomic resolution
+# Comparison of taxonomic resolution ability between Full-length 16S rRNA gene (long reads) and 16S V3V4 gene (short reads)    
 ## Publication 
 https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 ![image](https://github.com/user-attachments/assets/efb19b5b-0250-4512-a54e-826da2da901a)
