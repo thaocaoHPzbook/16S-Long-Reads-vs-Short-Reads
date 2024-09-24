@@ -177,6 +177,44 @@ qiime taxa barplot \
   --o-visualization long_reads_taxa-bar-plots.qzv
 ```
 
+### Generate phylo tree
+**1. Filtering non chimeric ASV**
+```bash
+qiime feature-table filter-seqs \
+  --i-data dada2-ccs_rep.qza \
+  --i-table long_reads_filtered_table.qza \
+  --o-filtered-data no-chimera-rep-seqs.qza
+```
+
+**2. Generate phylo tree**
+```bash
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences no-chimera-rep-seqs.qza \
+  --o-alignment aligned-rep-seqs.qza \
+  --o-masked-alignment masked-aligned-rep-seqs.qza \
+  --o-tree unrooted-tree.qza \
+  --o-rooted-tree rooted-tree.qza
+```
+
+**3. Visualize phylo tree
+```qiime tools export \
+  --input-path rooted-tree.qza \
+  --output-path exported-rooted-tree
+```
+*View with iTOL
+
+
+### Generate rarefaction curve
+```bash
+qiime diversity alpha-rarefaction \
+  --i-table long_reads_filtered_table.qza \
+  --i-phylogeny rooted-tree.qza \
+  --p-max-depth 8500 \
+  --m-metadata-file metadata1.tsv \
+  --o-visualization long_reads_alpha-rarefaction.qzv
+```
+
+
 
 
 
