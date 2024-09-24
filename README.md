@@ -30,7 +30,7 @@ fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR233808
 fasterq-dump --outdir /home/hp/16S_analysis/input/Pacbio --split-files SRR23380892
 ````
 
-## QC downloaded samples and statistic
+## QC downloaded samples and statistic with SEQKIT and CSVTK
 **1. Install Seqkit**  
 ```bash
 conda install -c bioconda seqkit
@@ -62,7 +62,7 @@ for file in /home/hp/16S_analysis/input/pacbio/*.fastq; do
     csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/pacbio/${sampleID}.seqkit.summarystats.tsv"
 done
 ```
-## Long Reads 16S hifi Pacbio Data processing   
+## Long Reads 16S hifi Pacbio Data processing with QIIME 2   
 ### Import to QIIME 2
 **1. Generate manifest file***
 ```bash
