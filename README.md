@@ -155,7 +155,7 @@ qiime feature-table filter-features \
 ```
 
 **4. Generate taxa barplot**
-### Generate metadata file
+**4.1. Generate metadata file**
 ```bash
 nano metadata1.tsv
 ```
@@ -168,7 +168,7 @@ SRR23380891     pacbio  long
 SRR23380892     pacbio  long
 ```
 
-**5. Generate taxa barplot**
+**4.2. Generate taxa barplot**
 ```bash
 qiime taxa barplot \
   --i-table filtered_table.qza \
