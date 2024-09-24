@@ -63,7 +63,7 @@ for file in /home/hp/16S_analysis/input/pacbio/*.fastq; do
 done
 ```
 ## Long Reads 16S hifi Pacbio Data processing   
-### Imoport to QIIME 2
+### Import to QIIME 2
 **1. Generate manifest file***
 ```bash
 nano manifest1.csv
