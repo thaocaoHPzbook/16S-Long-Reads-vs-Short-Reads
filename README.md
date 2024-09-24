@@ -201,7 +201,7 @@ qiime phylogeny align-to-tree-mafft-fasttree \
   --input-path rooted-tree.qza \
   --output-path exported-rooted-tree
 ```
-*View with iTOL
+*View with iTOL*
 
 
 ### Generate rarefaction curve
