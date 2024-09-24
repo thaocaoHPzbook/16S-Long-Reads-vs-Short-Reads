@@ -6,7 +6,7 @@ https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 **1. Trace NCBI**  https://www.ncbi.nlm.nih.gov/bioproject/PRJNA933120    
 **2. Create the directory contents long and short reads data**
 ```bash
-mkdir -p 16S_analysis/input/Pacbio 16S_analysis/input/illumina;    
+mkdir -p 16S_analysis/input/Pacbio 16S_analysis/input/illumina    
 ```
 
 
