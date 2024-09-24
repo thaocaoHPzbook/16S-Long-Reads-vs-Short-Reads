@@ -112,11 +112,11 @@ qiime dada2 denoise-ccs \
 ### Remove chimeric ASVs
 ```bash
 qiime vsearch uchime-denovo \
-  --i-sequences rep-short_reads_seqs.qza \
-  --i-table short_reads_table.qza \
-  --o-chimeras short_reads_chimeras.qza \
-  --o-nonchimeras short_reads_nonchimeras.qza \
-  --o-stats uchime-stats.qza
+  --i-table dada2-ccs_table.qza \
+  --i-sequences dada2-ccs_rep.qza \
+  --o-chimeras chimeras.qza \
+  --o-nonchimeras nonchimeras.qza \
+  --o-stats chimera-stats.qza
 ```
 
 ### Generate SILVA database   
@@ -129,6 +129,52 @@ wget https://data.qiime2.org/2022.2/common/silva-138-99-seqs.qza
 **Update scikit-learn to Match Classifier Version**
 ```bash
 pip install scikit-learn==0.24.1
+```
+**2. Filtering Chimeric ASVs**
+```bash
+qiime feature-classifier classify-sklearn \
+  --i-classifier silva-138-99-nb-classifier.qza \
+  --i-reads nonchimeras.qza \
+  --p-confidence 0.97 \
+  --o-classification taxonomy.vsearch.qza
+```
+
+**Visualize taxonomy table**
+```bash
+qiime metadata tabulate \
+  --m-input-file taxonomy.vsearch.qza \
+  --o-visualization taxonomy.vsearch.qzv
+````
+
+**3. Update feature table**
+```bash
+qiime feature-table filter-features \
+  --i-table dada2-ccs_table.qza \
+  --m-metadata-file taxonomy.vsearch.qza \
+  --o-filtered-table filtered_table.qza
+```
+
+**4. Generate taxa barplot**
+### Generate metadata file
+```bash
+nano metadata1.tsv
+```
+*plaintext*
+```bash
+sample-id       group   read_type
+SRR23380883     pacbio  long
+SRR23380890     pacbio  long
+SRR23380891     pacbio  long
+SRR23380892     pacbio  long
+```
+
+**5. Generate taxa barplot**
+```bash
+qiime taxa barplot \
+  --i-table filtered_table.qza \
+  --i-taxonomy taxonomy.vsearch.qza \
+  --m-metadata-file metadata1.tsv \
+  --o-visualization long_reads_taxa-bar-plots.qzv
 ```
 
 
