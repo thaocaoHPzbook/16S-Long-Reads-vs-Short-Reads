@@ -2,7 +2,7 @@
 ## Publication 
 https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 ![image](https://github.com/user-attachments/assets/efb19b5b-0250-4512-a54e-826da2da901a)
-## Collecdata by SRA toolkit    
+## Data collection by SRA toolkit    
 **1. Trace NCBI**  https://www.ncbi.nlm.nih.gov/bioproject/PRJNA933120    
 **2. Create the directory contents long and short reads data**
 ```bash
