@@ -214,7 +214,84 @@ qiime diversity alpha-rarefaction \
   --o-visualization long_reads_alpha-rarefaction.qzv
 ```
 
+## Short Reads 16S Ill Data processing with QIIME 2   
+```bash
+cd 16S_analysis/input/illumina
+```
+### Primers removal
+**1. create the output directory**
+```bash
+mkdir -p trimmed_and_filtered_data
+```
 
+**2. create primer.txt file**
+```bash
+nano primers.txt
+```
+*plaintext*
+```bash
+>Bakt_341F
+TCGTCGGCAAGCGTCAAGATGTGTATAAGAGACAGCCTACGGGNGGCWGCAG
+>Bakt_805R
+GTCTCGTGGGCTCGGAGATGTGTAATAAGAGACAGGACTACHVGGGTATCTAATCC
+```
 
+**3. create manifest.csv file**
+```bash
+nano manifest.csv
+```
+*plaintexxt*
+```bash
+sample-id,absolute-filepath,direction
+SRR23380954,/home/hp/16S_analysis/input/illumina/SRR23380954_1.fastq,forward
+SRR23380954,/home/hp/16S_analysis/input/illumina/SRR23380954_2.fastq,reverse
+SRR23380955,/home/hp/16S_analysis/input/illumina/SRR23380955_1.fastq,forward
+SRR23380955,/home/hp/16S_analysis/input/illumina/SRR23380955_2.fastq,reverse
+SRR23380956,/home/hp/16S_analysis/input/illumina/SRR23380956_1.fastq,forward
+SRR23380956,/home/hp/16S_analysis/input/illumina/SRR23380956_2.fastq,reverse
+SRR23380957,/home/hp/16S_analysis/input/illumina/SRR23380957_1.fastq,forward
+SRR23380957,/home/hp/16S_analysis/input/illumina/SRR23380957_2.fastq,reverse
+```
 
+**4. create script for primer removal**
+```bash
+nano trim_and_remove_primers.sh
+```
 
+### 3. import data to QIIME2
+```bash
+qiime tools import \
+  --type 'SampleData[PairedEndSequencesWithQuality]' \
+  --input-path manifest.csv \
+  --output-path short_reads_demux.qza \
+  --input-format PairedEndFastqManifestPhred33
+```
+###. inspect the imported data
+```bash
+qiime demux summarize \
+  --i-data short_reads_demux.qza \
+  --o-visualization short_reads_demux.qzv
+```
+
+### filter, trim and denoise with DADA2 plugin
+```bash
+qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs short_reads_demux.qza \
+  --p-trunc-len-f 280 \
+  --p-trunc-len-r 200 \
+  --p-max-ee-f 5 \
+  --p-max-ee-r 5 \
+  --p-trim-left-f 10 \
+  --p-trim-left-r 10 \
+  --o-table short_reads_table.qza \
+  --o-representative-sequences rep-short_reads_seqs.qza \
+  --o-denoising-stats denoising-short_reads_stats.qza
+```
+
+### 6. visualize featuretable
+```bash
+qiime feature-table summarize \
+  --i-table short_reads_table.qza \
+  --o-visualization short_reads_table_summary.qzv \
+  --m-sample-metadata-file metadata.tsv
+```
