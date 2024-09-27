@@ -76,7 +76,6 @@ SRR23380890,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380890.fastq,
 SRR23380891,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380891.fastq,forward
 SRR23380892,/home/hp/16S_analysis/input/pacbio/processed_data/SRR23380892.fastq,forward
 ````
-
 **2. Import data to QIIME2**
 ```bash
 conda activate qiime2-amplicon-2024.5
@@ -218,6 +217,7 @@ qiime diversity alpha-rarefaction \
 ```bash
 cd 16S_analysis/input/illumina
 ```
+
 ### Primers removal
 **1. create the output directory**
 ```bash
@@ -236,26 +236,31 @@ TCGTCGGCAAGCGTCAAGATGTGTATAAGAGACAGCCTACGGGNGGCWGCAG
 GTCTCGTGGGCTCGGAGATGTGTAATAAGAGACAGGACTACHVGGGTATCTAATCC
 ```
 
+**4. create script for primer removal**
+```bash
+nano trim_and_remove_primers.sh
+```
+
+**5. Grant execution right and run the script**
+```bash
+chmod +x trim_and_remove_primers.sh
+./trim_and_remove_primers.sh
+```
 **3. create manifest.csv file**
 ```bash
 nano manifest.csv
 ```
-*plaintexxt*
+*plaintext*
 ```bash
 sample-id,absolute-filepath,direction
-SRR23380954,/home/hp/16S_analysis/input/illumina/SRR23380954_1.fastq,forward
-SRR23380954,/home/hp/16S_analysis/input/illumina/SRR23380954_2.fastq,reverse
-SRR23380955,/home/hp/16S_analysis/input/illumina/SRR23380955_1.fastq,forward
-SRR23380955,/home/hp/16S_analysis/input/illumina/SRR23380955_2.fastq,reverse
-SRR23380956,/home/hp/16S_analysis/input/illumina/SRR23380956_1.fastq,forward
-SRR23380956,/home/hp/16S_analysis/input/illumina/SRR23380956_2.fastq,reverse
-SRR23380957,/home/hp/16S_analysis/input/illumina/SRR23380957_1.fastq,forward
-SRR23380957,/home/hp/16S_analysis/input/illumina/SRR23380957_2.fastq,reverse
-```
-
-**4. create script for primer removal**
-```bash
-nano trim_and_remove_primers.sh
+SRR23380954,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380954_1.fastq.trimmed.fastq.gz,forward
+SRR23380954,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380954_2.fastq.trimmed.fastq.gz,reverse
+SRR23380955,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380955_1.fastq.trimmed.fastq.gz,forward
+SRR23380955,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380955_2.fastq.trimmed.fastq.gz,reverse
+SRR23380956,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380956_1.fastq.trimmed.fastq.gz,forward
+SRR23380956,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380956_2.fastq.trimmed.fastq.gz,reverse
+SRR23380957,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380957_1.fastq.trimmed.fastq.gz,forward
+SRR23380957,/home/hp/16S_analysis/input/illumina/trimmed_and_filtered_data/SRR23380957_2.fastq.trimmed.fastq.gz,reverse
 ```
 
 ### 3. import data to QIIME2
@@ -287,11 +292,206 @@ qiime dada2 denoise-paired \
   --o-representative-sequences rep-short_reads_seqs.qza \
   --o-denoising-stats denoising-short_reads_stats.qza
 ```
+### Generate metadata file
+```bash
+nano manifest.tsv
+```
+*plaintext*
+```bash
+sample-id	group	read_type
+SRR23380954	illumina_faeces	short
+SRR23380955	illumina_faeces	short
+SRR23380956	illumina_faeces	short
+SRR23380957	illumina_faeces	short
+```
 
-### 6. visualize featuretable
+### visualize featuretable
 ```bash
 qiime feature-table summarize \
   --i-table short_reads_table.qza \
   --o-visualization short_reads_table_summary.qzv \
   --m-sample-metadata-file metadata.tsv
 ```
+### remove ASV chimerics
+```bash
+qiime vsearch uchime-denovo \
+  --i-sequences rep-short_reads_seqs.qza \
+  --i-table short_reads_table.qza \
+  --o-chimeras short_reads_chimeras.qza \
+  --o-nonchimeras short_reads_nonchimeras.qza \
+  --o-stats uchime-stats.qza
+```
+
+**Check removed ASV Chemeric**
+```bash
+qiime metadata tabulate \
+  --m-input-file short_reads_nonchimeras.qza \
+  --o-visualization short_reads_nonchimeras.qzv
+```
+
+### Generarte SILVA database
+**1. Download silva-138-99**
+```bash
+wget https://data.qiime2.org/2022.2/common/silva-138-99-tax.qza
+wget https://data.qiime2.org/2022.2/common/silva-138-99-seqs.qza
+```
+
+**2. Update scikit-learn to Match Classifier Version**
+```bash
+pip install scikit-learn==0.24.1
+```
+
+### Classify non chimeric ASVs
+```bash
+qiime feature-classifier classify-sklearn \
+  --i-classifier silva-138-99-nb-classifier.qza \
+  --i-reads short_reads_nonchimeras.qza \
+  --p-confidence 0.97 \
+  --o-classification taxonomy.qza
+```
+### filtering non chimerics ASVs
+```bash
+qiime feature-table filter-seqs \
+  --i-data rep-short_reads_seqs.qza \
+  --i-table short_reads_filtered_table.qza \
+  --o-filtered-data no-chimera-rep-seqs.qza
+```
+  
+### update feature table
+```bash
+qiime feature-table filter-features \
+  --i-table short_reads_table.qza \
+  --m-metadata-file taxonomy.qza \
+  --o-filtered-table short_reads_filtered_table.qza
+```
+
+### Generate taxa barplot
+```bash
+qiime taxa barplot \
+  --i-table short_reads_filtered_table.qza \
+  --i-taxonomy taxonomy.qza \
+  --m-metadata-file metadata.tsv \
+  --o-visualization short_reads_taxa-bar-plots.qzv
+```
+
+### generate phylotree
+```bash
+qiime phylogeny align-to-tree-mafft-fasttree \
+  --i-sequences no-chimera-rep-seqs.qza \
+  --o-alignment aligned-rep-seqs.qza \
+  --o-masked-alignment masked-aligned-rep-seqs.qza \
+  --o-tree unrooted-tree.qza \
+  --o-rooted-tree rooted-tree.qza
+```
+**visualize phylortree**
+```bash
+qiime tools export \
+  --input-path rooted-tree.qza \
+  --output-path exported-rooted-tree
+```
+
+### Analyse rarefaction curve
+```bash
+qiime diversity alpha-rarefaction \
+  --i-table short_reads_filtered_table.qza \
+  --i-phylogeny rooted-tree.qza \
+  --p-max-depth 89619 \
+  --m-metadata-file metadata.tsv \
+  --o-visualization short_reads_alpha-rarefaction.qzv
+```
+
+## Merging 2 filtered feature table to analyse alpha and beta diversity
+moving 2 filtered feature tables to a folder named **merged_featuretable**
+
+### cd to the merged_featuretable**
+```bash
+cd merged_featuretable
+```
+
+### generate metadata file
+```bash
+nano metadata.tsv
+```
+*plaintext*
+sample-id	group	read_type
+SRR23380883		pacbio	long
+SRR23380890		pacbio	long
+SRR23380891		pacbio	long
+SRR23380892		pacbio	long
+SRR23380954		illumina    short
+SRR23380955		illumina    short
+SRR23380956		Illumina	short
+SRR23380957		illumina	short
+```
+
+### merging 2 feature table
+```bash
+qiime feature-table merge \
+  --i-tables short_reads_filtered_table.qza \
+  --i-tables long_reads_filtered_table.qza \
+  --o-merged-table merged_feature_table.qza
+```
+**Visualize the merged feature table to check**
+```bash
+qiime feature-table summarize \
+  --i-table merged_feature_table.qza \
+  --o-visualization merged_feature_table_summary.qzv \
+  --m-sample-metadata-file metadata.tsv
+```
+
+### analyse alpha diversity 
+# Tính toán alpha diversity
+```bash
+qiime diversity alpha \
+  --i-table merged_feature_table.qza \
+  --p-metric shannon \
+  --o-alpha-diversity alpha-diversity.qza
+```
+
+# Visualize alpha diversity
+```bash
+qiime metadata tabulate \
+  --m-input-file alpha-diversity.qza \
+  --o-visualization alpha-diversity.qzv
+```
+
+```bash
+qiime diversity alpha-group-significance \
+  --i-alpha-diversity alpha-diversity.qza \
+  --m-metadata-file metadata.tsv \
+  --o-visualization alpha-diversity-significance.qzv
+```
+
+### Analysing beta diversity
+```bash
+qiime diversity beta \
+  --i-table merged_feature_table.qza \
+  --p-metric braycurtis \
+  --o-distance-matrix beta-diversity.qza
+```
+
+**1. PCoA**
+```bash
+qiime diversity pcoa \
+  --i-distance-matrix beta-diversity.qza \
+  --o-pcoa pcoa-results.qza
+```
+
+**2. Visualize PCoA***
+```bash
+qiime emperor plot \
+  --i-pcoa pcoa-results.qza \
+  --m-metadata-file metadata.tsv \
+  --o-visualization pcoa-plot.qzv
+```
+
+**3. PERMANOVA (analyse groups differences)**
+```bash
+qiime diversity beta-group-significance \
+  --i-distance-matrix beta-diversity.qza \
+  --m-metadata-file metadata.tsv \
+  --m-metadata-column read_type \
+  --p-method permanova \
+  --o-visualization beta-group-significance.qzv
+```
+
