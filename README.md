@@ -495,3 +495,25 @@ qiime diversity beta-group-significance \
   --o-visualization beta-group-significance.qzv
 ```
 
+
+# core mectic results 
+```bash
+qiime diversity core-metrics \
+  --i-table merged_feature_table.qza \
+  --p-sampling-depth 7000 \
+  --m-metadata-file metadata.tsv \
+  --output-dir core-metrics-results
+```
+
+Visualize kết quả observed feature trong các mẫu
+qiime metadata tabulate \
+  --m-input-file core-metrics-results/observed_features_vector.qza \
+  --o-visualization core-metrics-results/observed_features_vector.qzv
+
+Visualize shannon diversity
+  qiime metadata tabulate \
+  --m-input-file core-metrics-results/shannon_vector.qza \
+  --o-visualization core-metrics-results/shannon_vector.qzv
+
+
+
