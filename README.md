@@ -530,7 +530,8 @@ qiime tools export \
   --output-path short_reads_taxonomy_exported
 ```
 
-### Generate the scipts for comparison of genus and species between long and short reads
+### Comparison of genus and species between long and short reads
+**1. Generate the script for coparison the counted genus and species of long vs short reads**
 ```bash
 nano genus_species_analysis.py // generate the script, please find the script content in the file with same name
 ```
@@ -538,8 +539,13 @@ nano genus_species_analysis.py // generate the script, please find the script co
 chmod +x genus_species_analysis.py // grant execution rights
 python genus_species_analysis.py // run the script
 ```
-
-
+**2. Kruskal wallis analysis**
+```bash
+nano kruskal_test_taxon.py //generate the script for Kruskal wallis analysis, please find the script content in the file with same name
+```
+```bash
+chmod +x kruskal_test_taxon.py // grant execution rights
+python kruskal_test_taxon.py // run the script
 
 
 
