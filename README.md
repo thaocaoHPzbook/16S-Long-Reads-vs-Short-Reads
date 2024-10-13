@@ -453,7 +453,7 @@ qiime feature-table summarize \
 ```
 
 ### analyse alpha diversity 
-# Tính toán alpha diversity
+# Calculate alpha diversity
 ```bash
 qiime diversity alpha \
   --i-table merged_feature_table.qza \
