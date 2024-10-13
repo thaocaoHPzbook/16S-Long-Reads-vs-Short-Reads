@@ -349,6 +349,13 @@ qiime feature-classifier classify-sklearn \
   --p-confidence 0.97 \
   --o-classification taxonomy.qza
 ```
+### visualize the classified taxanomy
+```bash
+qiime metadata tabulate \
+  --m-input-file taxonomy.qza \
+  --o-visualization taxonomy.qzv
+```
+
 ### filtering non chimerics ASVs
 ```bash
 qiime feature-table filter-seqs \
