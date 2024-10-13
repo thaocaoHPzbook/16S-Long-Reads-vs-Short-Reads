@@ -510,8 +510,29 @@ qiime diversity beta-group-significance \
   --o-visualization beta-group-significance.qzv
 ```
 
+# Comparison the taxonomy classification resolution between long and short reads
+## export taxonomy classification results from QIIME 2
 
-# core mectic results 
+```bash
+cd home/hp/16S_analysis/input
+```
+```bash
+mkdir comparison_genus_species
+```
+**1. Export Long reads**
+```bash
+qiime tools export \
+  --input-path home/hp16S_analysis/input/pacbio/taxonomy.vsearch.qza \
+  --output-path long_reads_taxonomy_exported
+```
+**2. Export short reads**
+```bash
+qiime tools export \
+  --input-path home/hp16S_analysis/input/illumina/taxonomy.qza \
+  --output-path short_reads_taxonomy_exported
+```
+
+### core mectic results 
 ```bash
 qiime diversity core-metrics \
   --i-table merged_feature_table.qza \
@@ -519,6 +540,8 @@ qiime diversity core-metrics \
   --m-metadata-file metadata.tsv \
   --output-dir core-metrics-results
 ```
+
+
 
 Visualize kết quả observed feature trong các mẫu
 qiime metadata tabulate \
