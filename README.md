@@ -9,8 +9,6 @@ https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10213-5
 mkdir -p 16S_analysis/input/Pacbio 16S_analysis/input/illumina    
 ```
 
-
-
 **3. Download data**    
 - 4 Ilumina feaces samples SRR23380954, SRR23380955, SRR23380956, SRR23380957    
 - 4 Pacbio feaces samplesSRR23380883, SRR23380890, SRR23380891, SRR23380892
@@ -195,12 +193,12 @@ qiime phylogeny align-to-tree-mafft-fasttree \
   --o-rooted-tree rooted-tree.qza
 ```
 
-**3. Visualize phylo tree
+**3. Visualize phylo tree**
 ```qiime tools export \
   --input-path rooted-tree.qza \
   --output-path exported-rooted-tree
 ```
-*View with iTOL*
+*View with iTOL website https://itol.embl.de/*
 
 
 ### Generate rarefaction curve
@@ -510,9 +508,9 @@ qiime diversity beta-group-significance \
   --o-visualization beta-group-significance.qzv
 ```
 
-# Comparison the taxonomy classification resolution between long and short reads
-## export taxonomy classification results from QIIME 2
-
+## Comparison the taxonomy classification resolution between long and short reads
+### export taxonomy classification results from QIIME 2
+**1. Making a directory containing the comparision results*
 ```bash
 cd home/hp/16S_analysis/input
 ```
@@ -531,6 +529,22 @@ qiime tools export \
   --input-path home/hp16S_analysis/input/illumina/taxonomy.qza \
   --output-path short_reads_taxonomy_exported
 ```
+
+### Generate the scipts for comparison of genus and species between long and short reads
+```bash
+nano genus_species_analysis.py // generate the script, please find the script content in the file with same name
+```
+```bash
+chmod +x genus_species_analysis.py // grant execution rights
+python genus_species_analysis.py // run the script
+```
+
+
+
+
+
+
+
 
 ### core mectic results 
 ```bash
