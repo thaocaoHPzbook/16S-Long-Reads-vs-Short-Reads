@@ -365,6 +365,14 @@ qiime feature-table filter-features \
   --o-filtered-table short_reads_filtered_table.qza
 ```
 
+### visualize filtered feauture table
+```bash
+qiime feature-table summarize \
+  --i-table short_reads_filtered_table.qza \
+  --o-visualization filtered-short-reads-table-summary.qzv \
+  --m-sample-metadata-file metadata.tsv
+```
+
 ### Generate taxa barplot
 ```bash
 qiime taxa barplot \
