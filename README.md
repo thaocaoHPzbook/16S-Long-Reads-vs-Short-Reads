@@ -532,18 +532,22 @@ qiime tools export \
 
 ### Comparison of genus and species between long and short reads
 **1. Generate the script for coparison the counted genus and species of long vs short reads**
+***1.1.  =generate the script**
 ```bash
-nano genus_species_analysis.py // generate the script, please find the script content in the file with same name
+nano genus_species_analysis.py
 ```
+// please find the script content in the file with same name along with this README.md    
+**1.2. Run the scipt**
 ```bash
 python genus_species_analysis.py // run the script
 ```
+
 **2. Kruskal wallis analysis**
 ***2.1. generate the script for Kruskal wallis analysis***
 ```bash
 nano kruskal_test_taxon.py
 ```
-// please find the script content in the file with same name
+// please find the script content in the file with same name  along with this README.md   
 ***2.2. Run the script***
 ```bash
 python kruskal_test_taxon.py // run the script
@@ -554,7 +558,7 @@ python kruskal_test_taxon.py // run the script
 ```bash
 nano heatmap_confidence.py
 ```
-// please find the script content in the file with same name
+// please find the script content in the file with same name  along with this README.md    
 ***2.2. Run the script***
 ```bash
 python heatmap_confidence.py // run the script
