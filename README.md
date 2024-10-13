@@ -210,7 +210,7 @@ qiime diversity alpha-rarefaction \
   --o-visualization long_reads_alpha-rarefaction.qzv
 ```
 
-## Short Reads 16S Ill Data processing with QIIME 2   
+## Short Reads 16S Illumina Data processing with QIIME 2   
 ```bash
 cd 16S_analysis/input/illumina
 ```
