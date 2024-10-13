@@ -83,8 +83,7 @@ qiime tools import \
   --output-path long_reads_demux1.qza \
   --input-format SingleEndFastqManifestPhred33
 ```
-
-***3. Inspect the imported data**   
+**3. Inspect the imported data**   
 ```bash
 qiime demux summarize \
   --i-data long_reads_demux1.qza \
