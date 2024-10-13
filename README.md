@@ -544,11 +544,13 @@ nano kruskal_test_taxon.py //generate the script for Kruskal wallis analysis, pl
 ```
 ```bash
 python kruskal_test_taxon.py // run the script
+```
 
-### Assessment of the Reliability of Taxonomy Classification for Long and Short Reads Through a Comparison of Confidence Scores for Final Taxa
+### Assessment of the reliability of Taxonomy Classification for Long and Short Reads Through a Comparison of Confidence Scores for Final Taxa
 ```bash
 nano heatmap_confidence.py //generate the script for Kruskal wallis analysis, please find the script content in the file with same name
 ```
+
 ```bash
 python heatmap_confidence.py // run the script
 ```
