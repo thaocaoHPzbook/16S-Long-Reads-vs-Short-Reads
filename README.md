@@ -425,6 +425,7 @@ cd merged_featuretable
 nano metadata.tsv
 ```
 *plaintext*
+```bash
 sample-id	group	read_type
 SRR23380883		pacbio	long
 SRR23380890		pacbio	long
