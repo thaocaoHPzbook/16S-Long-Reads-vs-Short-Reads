@@ -426,15 +426,15 @@ nano metadata.tsv
 ```
 *plaintext*
 ```bash
-sample-id	group	read_type
-SRR23380883		pacbio	long
-SRR23380890		pacbio	long
-SRR23380891		pacbio	long
-SRR23380892		pacbio	long
-SRR23380954		illumina    short
-SRR23380955		illumina    short
-SRR23380956		Illumina	short
-SRR23380957		illumina	short
+sample-id	group	 read_type
+SRR23380883	pacbio	long
+SRR23380890	pacbio	long
+SRR23380891	pacbio	long
+SRR23380892	pacbio	long
+SRR23380954	illumina	short
+SRR23380955	illumina	short
+SRR23380956	illumina	short
+SRR23380957 illumina	short
 ```
 
 ### merging 2 feature table
