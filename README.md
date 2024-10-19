@@ -37,7 +37,7 @@ conda install -c bioconda seqkit
 ```bash
 conda install -c bioconda csvtk    
 ```
-**3. Process QC and statistics for Illumina samples**    
+**3. QC and statistics for Illumina samples**    
 ```bash
 for file in /home/hp/16S_analysis/input/illumina/*.fastq; do
     sampleID=$(basename "$file" .fastq)
@@ -47,7 +47,7 @@ for file in /home/hp/16S_analysis/input/illumina/*.fastq; do
     csvtk mutate2 -t -n sample -e "\"$sampleID\"" > "/home/hp/16S_analysis/fastqc/illumina/${sampleID}.seqkit.summarystats.tsv"
 done
 ```
-**4. Process QC and statistics for Pacbio samples**   
+**4. QC and statistics for Pacbio samples**   
 ```bash
 for file in /home/hp/16S_analysis/input/pacbio/*.fastq; do
     sampleID=$(basename "$file" .fastq)
