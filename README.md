@@ -539,7 +539,7 @@ nano genus_species_analysis.py
 // please find the script content in the file with same name along with this README.md    
 **1.2. Run the scipt**
 ```bash
-python genus_species_analysis.py // run the script
+python genus_species_analysis.py
 ```
 
 **2. Kruskal wallis analysis**
@@ -550,7 +550,7 @@ nano kruskal_test_taxon.py
 // please find the script content in the file with same name  along with this README.md   
 ***2.2. Run the script***
 ```bash
-python kruskal_test_taxon.py // run the script
+python kruskal_test_taxon.py
 ```
 
 ### Assessment of the reliability of Taxonomy Classification for Long and Short Reads Through a Comparison of Confidence Scores for Final Taxa
