@@ -542,7 +542,7 @@ nano genus_species_analysis.py
 python genus_species_analysis.py
 ```
 
-**2. Kruskal wallis analysis**
+**2. Kruskal wallis analysis**    
 ***2.1. generate the script for Kruskal wallis analysis***
 ```bash
 nano kruskal_test_taxon.py
