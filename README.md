@@ -99,7 +99,7 @@ qiime dada2 denoise-ccs \
   --o-denoising-stats dada2-ccs_stats.qza \
   --p-min-len 1000 \
   --p-max-len 1600 \
-  --p-max-ee 3 \
+  --p-max-ee 2 \
   --p-front 'AGRGTTYGATYMTGGCTCAG' \
   --p-adapter 'RGYTACCTTGTTACGACTT' \
   --p-n-threads 8
